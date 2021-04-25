@@ -1,1 +1,2 @@
-# courses REST API
+# Courses REST API with Django Rest Framework
+
