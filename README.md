@@ -1,1 +1,1 @@
-# courses_api
+# courses REST API
