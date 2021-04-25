@@ -28,3 +28,13 @@ class CourseTest(TestCase):
         self.assertEqual(start_date, '2021-04-25')
         self.assertEqual(end_date, '2021-05-05')
         self.assertEqual(lectures, '10')
+
+    def test_post_coupse(self):
+        course = Course.objects.create(
+            title='some title',
+            description='some description',
+            start_date='2021-04-27',
+            end_date='2021-05-17',
+            lectures='17'
+        )
+        course.save()
