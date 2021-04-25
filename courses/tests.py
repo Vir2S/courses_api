@@ -1,40 +1,55 @@
-from django.test import TestCase
+import json
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase, APIRequestFactory
+from courses.serializers import CoursesListSerializer, CourseDetailSerializer
 from courses.models import Course
 
 
-class CourseTest(TestCase):
+class CourseTestCase(APITestCase):
+    list_url = reverse('courses-list')
 
-    @classmethod
-    def setUpTestData(cls):
-        # Create a course
-        test_course = Course.objects.create(
-            title='test course title',
-            description='test course description',
-            start_date='2021-04-25',
-            end_date='2021-05-05',
-            lectures='10'
-        )
-        test_course.save()
+    def setUp(self):
+        self.title = 'test course'
+        self.description = 'test course description'
+        self.start_date = '2021-04-24'
+        self.end_date = '2021-05-05'
+        self.lectures = 10
 
-    def test_course_content(self):
-        course = Course.objects.get(id=1)
-        title = f'{course.title}'
-        description = f'{course.description}'
-        start_date = f'{course.start_date}'
-        end_date = f'{course.end_date}'
-        lectures = f'{course.lectures}'
-        self.assertEqual(title, 'test course title')
-        self.assertEqual(description, 'test course description')
-        self.assertEqual(start_date, '2021-04-25')
-        self.assertEqual(end_date, '2021-05-05')
-        self.assertEqual(lectures, '10')
+    def test_get_courses_list(self):
+        response = self.client.get(self.list_url)
+        no_response = self.client.get('/api/courses-courses/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(no_response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_post_coupse(self):
-        course = Course.objects.create(
-            title='some title',
-            description='some description',
-            start_date='2021-04-27',
-            end_date='2021-05-17',
-            lectures='17'
-        )
-        course.save()
+    def test_create_course(self):
+        data = {
+            'title': 'test title',
+            'description': 'test description',
+            'start_date': '2021-04-24',
+            'end_date': '2021-05-05',
+            'lectures': '5',
+        }
+        response = self.client.post('/api/v1/', data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get_course_detail(self):
+        response = self.client.get(reverse('course-detail', kwargs={'pk': 1}))
+        no_response = self.client.get(reverse('course-detail', kwargs={'pk': 0}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(no_response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_course(self):
+        data = {
+            'title': 'test title',
+            'description': 'test description',
+            'start_date': '2021-04-24',
+            'end_date': '2021-05-05',
+            'lectures': '5',
+        }
+        response = self.client.put(reverse('course-detail', kwargs={'pk': 1}), data)
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+
+    def test_delete_course(self):
+        response = self.client.delete(reverse('course-detail', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
