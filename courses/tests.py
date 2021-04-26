@@ -10,6 +10,7 @@ class CourseTestCase(APITestCase):
     list_url = reverse('courses-list')
 
     def setUp(self):
+        self.id = 1
         self.title = 'test course'
         self.description = 'test course description'
         self.start_date = '2021-04-24'
@@ -28,9 +29,9 @@ class CourseTestCase(APITestCase):
             'description': 'test description',
             'start_date': '2021-04-24',
             'end_date': '2021-05-05',
-            'lectures': '5',
+            'lectures': 5,
         }
-        response = self.client.post('/api/v1/', data)
+        response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_get_course_detail(self):
@@ -41,14 +42,16 @@ class CourseTestCase(APITestCase):
 
     def test_update_course(self):
         data = {
+            'id': 1,
             'title': 'test title',
             'description': 'test description',
             'start_date': '2021-04-24',
             'end_date': '2021-05-05',
-            'lectures': '5',
+            'lectures': 5,
         }
         response = self.client.put(reverse('course-detail', kwargs={'pk': 1}), data)
-        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), data)
 
     def test_delete_course(self):
         response = self.client.delete(reverse('course-detail', kwargs={'pk': 1}))
