@@ -1,7 +1,7 @@
 from rest_framework import generics
-from courses.models import Course
 from django.db.models import Q
 from courses.serializers import CoursesListSerializer, CourseDetailSerializer
+from courses.models import Course
 
 
 class ListCourse(generics.ListCreateAPIView):
@@ -14,10 +14,10 @@ class ListCourse(generics.ListCreateAPIView):
         end_date = self.request.GET.getlist('end_date')
 
         if start_date:
-            queryset = queryset.filter(start_date__in=start_date)
+            queryset = queryset.filter(start_date__range=start_date)
 
         if end_date:
-            queryset = queryset.filter(end_date__in=end_date)
+            queryset = queryset.filter(end_date__range=end_date)
 
         query = self.request.GET.get('q')
 
