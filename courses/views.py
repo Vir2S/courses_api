@@ -24,7 +24,7 @@ class ListCourse(generics.ListAPIView):
 
 
 class CreateCourse(generics.CreateAPIView):
-    # queryset = Course.objects.all()
+    queryset = Course.objects.all()
     serializer_class = CourseDetailSerializer
 
 
