@@ -31,18 +31,17 @@ class CourseTestCase(APITestCase):
             'end_date': '2021-05-05',
             'lectures': 5,
         }
-        response = self.client.post(self.list_url, data)
+        response = self.client.post('/add/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_get_course_detail(self):
-        response = self.client.get(reverse('course-detail', kwargs={'pk': 1}))
+        response = self.client.get(reverse('course-detail', kwargs={'pk': self.id}))
         no_response = self.client.get(reverse('course-detail', kwargs={'pk': 0}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(no_response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_course(self):
         data = {
-            'id': 1,
             'title': 'test title',
             'description': 'test description',
             'start_date': '2021-04-24',
