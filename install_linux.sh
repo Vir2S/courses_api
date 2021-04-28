@@ -1,5 +1,5 @@
 echo 'Installing virtual environment...'
-python -m venv venv
+python3 -m venv venv
 echo '...successfully installed.'
 echo ''
 echo 'Activating virtual environment...'
@@ -7,7 +7,7 @@ echo 'Activating virtual environment...'
 echo '...successfully activated.'
 echo ''
 echo 'Installing requirements...'
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 echo ''
 . ./venv/bin/activate
 echo 'Installation complete. Enjoy!'
