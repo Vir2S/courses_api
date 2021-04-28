@@ -9,8 +9,6 @@ class CourseFilter(filters.FilterSet):
 
     end_date_from = filters.DateFilter(field_name='end_date', lookup_expr='gte')
     end_date_to = filters.DateFilter(field_name='end_date', lookup_expr='lte')
-    # start_date_between = filters.DateFromToRangeFilter(field_name="start_date", lookup_expr='gt')
-    # end_date_between = filters.DateFromToRangeFilter(field_name="end_date", lookup_expr='lt')
 
     class Meta:
         model = Course

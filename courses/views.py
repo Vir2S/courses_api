@@ -1,4 +1,5 @@
 from django_filters import rest_framework as filters
+from rest_framework import filters as search_filters
 from rest_framework import generics
 from django.db.models import Q
 from courses.serializers import CoursesListSerializer, CourseDetailSerializer
@@ -8,7 +9,8 @@ from courses.filters import CourseFilter
 
 class ListCourse(generics.ListAPIView):
     serializer_class = CoursesListSerializer
-    filter_backends = (filters.DjangoFilterBackend, )
+    search_fields = ['title']
+    filter_backends = (filters.DjangoFilterBackend, search_filters.SearchFilter)
     filterset_class = CourseFilter
 
     def get_queryset(self):
