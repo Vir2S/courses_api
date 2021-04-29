@@ -17,3 +17,20 @@ Then you have to create superuser:
 
 and follow instructions on the screen.
 
+**Start:**
+
+Run command under command line:
+
+`python manage.py runserver`
+
+Put link in your browser
+
+`localhost:8000/api/v1/`
+
+**Endpoints:**
+
+`/api/v1/` - courses list (GET)
+
+`/api/v1/add/` - create a new course (POST)
+
+`/api/v1/some_id/` - get full course description (GET, PUT, DELETE)
